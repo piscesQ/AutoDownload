@@ -23,8 +23,8 @@ public class AutoDownloadService extends AccessibilityService {
     public void onAccessibilityEvent(AccessibilityEvent event) {
         int eventType = event.getEventType();
 
-//        Log.d(TAG, "eventType = " + eventType);
-//        Log.d(TAG, "event = " + event.toString());
+        Log.d(TAG, "eventType = " + eventType);
+        Log.d(TAG, "event = " + event.toString());
 
         switch (eventType) {
             case AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED:
@@ -32,11 +32,27 @@ public class AutoDownloadService extends AccessibilityService {
                 Toast.makeText(this,"BaiduNetdisk -- TYPE_WINDOW_STATE_CHANGED",Toast.LENGTH_SHORT).show();
                 break;
             case AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED:    //通知栏
-                event.get
+                List<CharSequence> charSequenceList = event.getText();
+                for(CharSequence sequence : charSequenceList){
+                    String keyword = sequence.toString();
+                    if(keyword.equals("=================")){    //TODO inflate string
+                        //TODO filter download failure notify
+                    }
+                }
                 handleAutoDownload();
                 break;
         }
     }
+
+//    D/AutoDownloadService: event = EventType: TYPE_NOTIFICATION_STATE_CHANGED; EventTime: 7876974;
+//    PackageName: com.baidu.netdisk; MovementGranularity: 0;
+//    Action: 0 [ ClassName: android.app.Notification; Text: []; ContentDescription: null; ItemCount: -1;
+//        CurrentItemIndex: -1; IsEnabled: false; IsPassword: false; IsChecked: false; IsFullScreen: false;
+//        Scrollable: false; BeforeText: null; FromIndex: -1; ToIndex: -1; ScrollX: -1; ScrollY: -1;
+//        MaxScrollX: -1; MaxScrollY: -1; AddedCount: -1; RemovedCount: -1; ParcelableData:
+//        Notification(pri=0 contentView=com.baidu.netdisk/0x7f0300a4 vibrate=null sound=null
+//                defaults=0x0 flags=0x2 color=0x00000000 vis=PRIVATE) ]
+//    ; recordCount: 0
 
     private void handleAutoDownload() {
         AccessibilityNodeInfo nodeInfo = null;
