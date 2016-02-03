@@ -99,10 +99,10 @@ public class AutoDownloadService extends AccessibilityService {
     @Override
     protected void onServiceConnected() {
         super.onServiceConnected();
+        Toast.makeText(this, "已连接baiduyun服务", Toast.LENGTH_SHORT).show();
         singleService = this;
         //发送广播，已经连接上了
         Intent intent = new Intent(ConfigUtils.ACTION_SERVICE_CONNECT);
         sendBroadcast(intent);
-        Toast.makeText(this, "已连接baiduyun服务", Toast.LENGTH_SHORT).show();
     }
 }

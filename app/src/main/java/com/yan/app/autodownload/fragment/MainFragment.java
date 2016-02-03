@@ -12,6 +12,8 @@ import com.yan.app.autodownload.R;
 import com.yan.app.autodownload.service.AutoDownloadService;
 import com.yan.app.autodownload.utils.ConfigUtils;
 
+import java.lang.reflect.Method;
+
 public class MainFragment extends PreferenceFragment {
 
     public MainFragment() {
@@ -54,11 +56,11 @@ public class MainFragment extends PreferenceFragment {
 //                        AutoDownloadService.singleService.onServiceConnected();
 
                         try {
-//                            Class<?> autoDownloadService = Class.forName("com.yan.app.autodownload.service.AutoDownloadService");
-//                            Object instance = autoDownloadService.newInstance();
-//                            Method method = autoDownloadService.getMethod("onServiceConnected", null);
-//                            method.setAccessible(true);
-//                            method.invoke(instance,null);
+                            Class<?> autoDownloadService = Class.forName("com.yan.app.autodownload.service.AutoDownloadService");
+                            Object instance = autoDownloadService.newInstance();
+                            Method method = autoDownloadService.getMethod("onServiceConnected");
+                            method.setAccessible(true);
+                            method.invoke(instance);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
