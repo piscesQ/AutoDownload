@@ -5,4 +5,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="service_description">百度云自动重新下载</string>
     <string name="service_name">百度云Service</string>
+    <string name="open_service_button">打开辅助服务</string>
+    <string name="tips">找到“百度云Service”打开即可</string>
 </resources>

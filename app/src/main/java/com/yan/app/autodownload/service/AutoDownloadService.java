@@ -29,18 +29,29 @@ public class AutoDownloadService extends AccessibilityService {
         switch (eventType) {
             case AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED:
                 handleAutoDownload();
-                Toast.makeText(this,"BaiduNetdisk -- TYPE_WINDOW_STATE_CHANGED",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "BaiduNetdisk -- TYPE_WINDOW_STATE_CHANGED", Toast.LENGTH_SHORT).show();
                 break;
-            case AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED:    //通知栏
-                List<CharSequence> charSequenceList = event.getText();
-                for(CharSequence sequence : charSequenceList){
-                    String keyword = sequence.toString();
-                    if(keyword.equals("=================")){    //TODO inflate string
-                        //TODO filter download failure notify
-                    }
-                }
+//            case AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED:    //通知栏
+//                List<CharSequence> charSequenceList = event.getText();
+//                for (CharSequence sequence : charSequenceList) {
+//                    String keyword = sequence.toString();
+//                    Log.d(TAG, " == keyword : " + keyword);
+//
+//                    //网络连接后的通知栏：Text: [WiFi已经连接，所有任务准备开始]
+//                    //下载失败        ：Text: [下载完成]
+//
+//                    if (keyword.contains("下载完成")) {    //下载失败的通知栏会出现“下载完成”
+//                        Toast.makeText(this, "下载完成 - 失败", Toast.LENGTH_SHORT).show();
+//                        Log.d(TAG, "下载完成 - 失败");
+//                    }
+//                }
+//                handleAutoDownload();
+//                break;
+            case AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED:
                 handleAutoDownload();
+                Toast.makeText(this, "BaiduNetdisk == TYPE_WINDOW_CONTENT_CHANGED", Toast.LENGTH_SHORT).show();
                 break;
+
         }
     }
 
@@ -61,8 +72,10 @@ public class AutoDownloadService extends AccessibilityService {
         }
         if (nodeInfo != null) {
             List<AccessibilityNodeInfo> list = nodeInfo.findAccessibilityNodeInfosByText("全部重新下载");
-            for(AccessibilityNodeInfo node : list){
+            for (AccessibilityNodeInfo node : list) {
                 node.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+                Toast.makeText(this, "可见性：" + node.isVisibleToUser(), Toast.LENGTH_SHORT).show();
+                Log.d(TAG,  "可见性：" + node.isVisibleToUser());   // true
             }
         }
     }

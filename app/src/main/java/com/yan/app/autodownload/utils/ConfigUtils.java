@@ -1,5 +1,10 @@
 package com.yan.app.autodownload.utils;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import com.yan.app.autodownload.MainApplication;
+
 /**
  * @author YanBin
  * @version V1.0
@@ -15,9 +20,12 @@ public class ConfigUtils {
 
     public static final String ACTION_SERVICE_CONNECT = "com.yan.app.autodownload.CONNECT";
     public static final String ACTION_SERVICE_DISCONNECT = "com.yan.app.autodownload.DISCONNECT";
+    public static final String SERVICE_ACTION = "com.yan.app.service.BAIDUYUN_DOWNLOAD";
 
-    public static void getSwitchDownload(){
+    private static SharedPreferences sp = MainApplication.getInstance().getSharedPreferences(ConfigUtils.NAME, Context.MODE_PRIVATE);
 
+    public static boolean getSwitchDownload(){
+        return sp.getBoolean(ConfigUtils.SWITCH_DOWNLOAD,true);
     }
 
     public static void getEditPreference(){

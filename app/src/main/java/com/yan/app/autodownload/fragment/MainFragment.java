@@ -9,17 +9,10 @@ import android.preference.SwitchPreference;
 import android.widget.Toast;
 
 import com.yan.app.autodownload.R;
+import com.yan.app.autodownload.service.AutoDownloadService;
 import com.yan.app.autodownload.utils.ConfigUtils;
 
 public class MainFragment extends PreferenceFragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     public MainFragment() {
         // Required empty public constructor
@@ -37,8 +30,6 @@ public class MainFragment extends PreferenceFragment {
     public static MainFragment newInstance(String param1, String param2) {
         MainFragment fragment = new MainFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -51,11 +42,33 @@ public class MainFragment extends PreferenceFragment {
         addPreferencesFromResource(R.xml.preferecne_config);
 
         SwitchPreference switchDownload = (SwitchPreference) findPreference(ConfigUtils.SWITCH_DOWNLOAD);
+        switchDownload.setChecked(true);    //设置默认打开
         switchDownload.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                getPreferenceManager().setSharedPreferencesName(ConfigUtils.SWITCH_DOWNLOAD);
-                return false;
+                Toast.makeText(getActivity(), "switchDownload content : " + newValue, Toast.LENGTH_SHORT).show();
+                if((Boolean)newValue){      //true
+                    if (AutoDownloadService.singleService != null){
+//                        Intent intent = new Intent(ConfigUtils.SERVICE_ACTION);
+//                        getActivity().startService(intent);
+//                        AutoDownloadService.singleService.onServiceConnected();
+
+                        try {
+//                            Class<?> autoDownloadService = Class.forName("com.yan.app.autodownload.service.AutoDownloadService");
+//                            Object instance = autoDownloadService.newInstance();
+//                            Method method = autoDownloadService.getMethod("onServiceConnected", null);
+//                            method.setAccessible(true);
+//                            method.invoke(instance,null);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }else{      //false
+                    if (AutoDownloadService.singleService != null){
+                        AutoDownloadService.singleService.onInterrupt();    //调用中断方法
+                    }
+                }
+                return true;     //属性的值是否改变，true：改变； false：不变
             }
         });
 
@@ -64,8 +77,8 @@ public class MainFragment extends PreferenceFragment {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 getPreferenceManager().setSharedPreferencesName(ConfigUtils.EDIT_PREFERENCE);
-                Toast.makeText(getActivity(),"edit content : " + newValue, Toast.LENGTH_SHORT).show();
-                return false;
+                Toast.makeText(getActivity(), "edit content : " + newValue, Toast.LENGTH_SHORT).show();
+                return true;
             }
         });
 
@@ -74,8 +87,8 @@ public class MainFragment extends PreferenceFragment {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 getPreferenceManager().setSharedPreferencesName(ConfigUtils.LIST_PREFERENCE);
-                Toast.makeText(getActivity(),"list content : " + newValue, Toast.LENGTH_SHORT).show();
-                return false;
+                Toast.makeText(getActivity(), "list content : " + newValue, Toast.LENGTH_SHORT).show();
+                return true;
             }
         });
     }
