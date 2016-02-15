@@ -49,7 +49,7 @@ public class AutoDownloadService extends AccessibilityService {
 //                break;
             case AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED:
                 handleAutoDownload();
-                Toast.makeText(this, "BaiduNetdisk == TYPE_WINDOW_CONTENT_CHANGED", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "BaiduNetdisk == TYPE_WINDOW_CONTENT_CHANGED", Toast.LENGTH_SHORT).show();
                 break;
 
         }
